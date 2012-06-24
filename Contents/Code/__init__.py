@@ -7,9 +7,8 @@ baseurl = 'http://www.eredivisielive.nl'
 liveurl = baseurl + '/video/'
 
 ## Todo
-# - Add more content?
-# - Check strings
-
+# - Add more content? for example VOD
+# - Club logo bij club container? evt hogere resolutie zou mooi zijn als ie er is.
 ####################################################################################################
 def Start():
 
@@ -44,12 +43,14 @@ def getClubs():
 	try:
 		for team in HTML.ElementFromURL(liveurl).xpath('//div[@id="filter-club-options"]/ul/li/a'):
 			club = team.xpath('./span[@class="name"]')[0].text
+			 
 			if club == 'Geen filter op clubs':
 				continue
 			teamlink = team.get('href')
-			
+			clublogo = team.xpath('./span/img')[0].get('src')	
+			clublogo = clublogo.replace('20x20', '100x100')
 			competitie=""
-			oc.add(DirectoryObject(key = Callback(getVideo, teamlink=teamlink, competitie=competitie), title=club))
+			oc.add(DirectoryObject(key = Callback(getVideo, teamlink=teamlink, competitie=competitie), title=club, thumb=clublogo))
 	except:
 		Log(L('WebError') + liveurl)
 
@@ -85,30 +86,6 @@ def getVideo(teamlink, competitie, page=1):
 	elif competitie != "":
 		videourl = baseurl + competitie + "pagina/" + pagestr
 		
-#CLIPS:	
-#	<ul class="clearfix">
-#		<li class="video-item">
-#			<a href="/video/62201-transfer-targets-de-sterren-van-feyenoord.html">
-#				<span class="video-play-button">&nbsp;</span>
-#				<img src="http://static.eredivisielive.nl/data/images/2012/05/30/160_90/39077.jpg" width="145" height="81" title="Transfer Targets: De sterren van Feyenoord" />
-#				<span class="date">30 mei 2012 om 12:30<br />Duur: 1:24. Views: 5.151</span>	
-#				<span class="title">Transfer Targets: De sterren van Feyenoord</span>
-#			</a>
-#		</li>
-#		<li class="video-item">
-#			<a href="/video/61875-feyenoord-tv-26-05-de-mooiste-momenten-van-het-seizoen.html">
-#				<span class="video-play-button">&nbsp;</span>
-#				<img src="http://static.eredivisielive.nl/data/images/2012/05/25/160_90/38907.jpg" width="145" height="81" title="Feyenoord TV 26-05: De mooiste momenten van het seizoen" />
-#				<span class="date">26 mei 2012 om 17:20<br />Duur: 17:55. Views: 745</span>		
-#				<span class="title">Feyenoord TV 26-05: De mooiste momenten van het seizoen</span>
-#			</a>
-#		</li>
-	
-# Meerder paginas:
-#	<div id="pagination-forward">
-#		<a href="/video/overzicht/club/vvv/categorie/analyse/pagina/2/" class="forward active">Volgende</a>
-#	</div>	
-	
 	content = HTML.ElementFromURL(videourl)
 	
 	for video in content.xpath('//li[@class="video-item"]'):

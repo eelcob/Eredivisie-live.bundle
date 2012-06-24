@@ -1,27 +1,3 @@
-#<div id="content">
-#	<div id="column-1-2">
-#		<section id="video-item" class="block">
-#			<header>
-#				<h1>Feyenoord TV 18-05: Contract ondertekeningen</h1>
-#				<div id="video-date">
-#					18 mei 2012 om 23:53.: 18:09. Views: 153    
-#				</div>
-#            
-#			</header>
-#			<div class="block-content">
-#				<div id="player">
-#					<input type="hidden" id="video-portal" value="ere" />
-#					<input type="hidden" id="video-id" value="60913" />
-#					<input type="hidden" id="video-width" value="600" />
-#					<input type="hidden" id="video-autoplay" value="true" />
-#					<input type="hidden" id="video-smil" value="http://lb.streamgate.nl/vod/_definst_/content1/eredivisie/2012/05/18/50709.smil/playlist.m3u8" />
-#					<input type="hidden" id="video-session" value="XXX" />				
-#				</div>   
-#            
-#
-#            <div id="video-description"></div>
-### TODO 
-# - get more data
 ####################################################################################################
 def MediaObjectsForURL(url):
 	content = HTML.ElementFromURL(url)
