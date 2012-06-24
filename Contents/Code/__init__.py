@@ -9,6 +9,7 @@ liveurl = baseurl + '/video/'
 ## Todo
 # - fix competitie function
 # - Add more content?
+# - Check strings
 
 ####################################################################################################
 def Start():
@@ -60,19 +61,19 @@ def getClubs():
 def getCompetitie():
 	oc = ObjectContainer()
 	
-	### TRY staat uit totdat het goed werkt daarna aanzetten en indenten
-	#try:
-	for competitie in HTML.ElementFromURL(liveurl).xpath('//div[@id="filter-competition-options"]/ul/li/a/span[@class="name"]'):
-		comp = competitie.text
-		if comp == 'Alle competities':
-			continue
+	try:
+		for competities in HTML.ElementFromURL(liveurl).xpath('//div[@id="filter-competition-options"]/ul/li/a'):
+			comp = competities.xpath('./span[@class="name"]')[0].text
+			if comp == 'Alle competities':
+				continue
 
-		competitie = competitie.get('value')
-		teamlink = ""
+			competitie = competities.get('href')
 		
-		oc.add(DirectoryObject(key = Callback(getVideo, teamlink=teamlink, competitie=competitie), title=comp))
-	#except:
-	#	Log(L('WebError') + liveurl)
+			teamlink = ""
+		
+			oc.add(DirectoryObject(key = Callback(getVideo, teamlink=teamlink, competitie=competitie), title=comp))
+	except:
+		Log(L('WebError') + liveurl)
 
 	return oc
 
@@ -85,6 +86,7 @@ def getVideo(teamlink, competitie, page=1):
 		videourl = baseurl + teamlink + "pagina/"	+ pagestr
 	elif competitie != "":
 		videourl = baseurl + competitie + "pagina/" + pagestr
+		#http://eredivisielive.nl/video/overzicht/competitie/eredivisie/
 		
 #CLIPS:	
 #	<ul class="clearfix">
