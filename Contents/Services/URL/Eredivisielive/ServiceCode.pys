@@ -22,7 +22,6 @@
 #            <div id="video-description"></div>
 ### TODO 
 # - get more data
-# - m3u8 support instead of flv and mp4
 ####################################################################################################
 def MediaObjectsForURL(url):
 	content = HTML.ElementFromURL(url)
@@ -30,10 +29,7 @@ def MediaObjectsForURL(url):
 	for video in content.xpath('//div[@id="content"]'):
 		title = video.xpath('./div/section/header/h1')[0].text
 		video_url = video.xpath('./div/section/div/div/input[@id="video-smil"]')[0].get('value')
-		Log.Debug("vid is")
-		Log.Debug(video_url)
-	
-	
+
 	if video_url.endswith('.mp4'):
 		container = Container.MP4
 		audio_codec = AudioCodec.AAC
