@@ -1,4 +1,4 @@
-ART 			= 'art-default.png'
+ART 			= 'art-default.jpg'
 ICON 			= 'icon-default.png'
 ICON_MORE		= 'icon-more.png'
 NAME 			= L('Title')
