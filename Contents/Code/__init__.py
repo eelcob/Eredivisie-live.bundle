@@ -9,6 +9,7 @@ liveurl = baseurl + '/video/'
 ## Todo
 # - Add more content? for example VOD
 # - Club logo bij club container? evt hogere resolutie zou mooi zijn als ie er is.
+# - update urluservice with test url
 ####################################################################################################
 def Start():
 

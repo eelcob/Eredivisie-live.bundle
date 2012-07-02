@@ -2,9 +2,8 @@
 def MediaObjectsForURL(url):
 	content = HTML.ElementFromURL(url)
 	
-	for video in content.xpath('//div[@id="content"]'):
-		title = video.xpath('./div/section/header/h1')[0].text
-		video_url = video.xpath('./div/section/div/div/input[@id="video-smil"]')[0].get('value')
+	title = content.xpath('//div[@id="content"]/div/section/header/h1')[0].text
+	video_url = content.xpath('//div[@id="content"]/div/section/div/div/input[@id="video-smil"]')[0].get('value')
 
 	if video_url.endswith('.mp4'):
 		container = Container.MP4
