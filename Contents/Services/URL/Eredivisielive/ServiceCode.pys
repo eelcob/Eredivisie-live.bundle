@@ -20,7 +20,7 @@ def NormalizeURL(url):
 	
 ####################################################################################################
 def PlayVideo(url):
-	Log.Debug(url)
+
 	content = HTML.ElementFromURL(url)
 	video_url = content.xpath('//div[@id="content"]/div/section/div/div/input[@id="video-smil"]')[0].get('value')
 	return Redirect(video_url)
