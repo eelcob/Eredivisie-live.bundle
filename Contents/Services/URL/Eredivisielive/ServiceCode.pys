@@ -1,28 +1,45 @@
 ####################################################################################################
 def MediaObjectsForURL(url):
-	content = HTML.ElementFromURL(url)
-	
-	title = content.xpath('//div[@id="content"]/div/section/header/h1')[0].text
-	video_url = content.xpath('//div[@id="content"]/div/section/div/div/input[@id="video-smil"]')[0].get('value')
-
-	if video_url.endswith('.mp4'):
-		container = Container.MP4
-		audio_codec = AudioCodec.AAC
-		video_codec = VideoCodec.H264
-	else:
-		container = 'flv'
-		audio_codec = AudioCodec.MP3
-		video_codec = VideoCodec.H263
 
 	return [
 		MediaObject(
-		container = container,
-		audio_codec = audio_codec,
-		video_codec = video_codec,
-		parts = [PartObject(key=video_url)]
+			video_codec = VideoCodec.H263,
+			audio_codec = AudioCodec.MP3,
+			container = 'flv',
+			video_resolution = 'sd',
+			optimized_for_streaming = True,
+			audio_channels = 2,
+			parts = [PartObject(key=Callback(PlayVideo, url = url))]
 		)
 	]
-		
+
 ####################################################################################################
 def NormalizeURL(url):
+
 	return url
+	
+####################################################################################################
+def PlayVideo(url):
+
+	content = HTML.ElementFromURL(url)
+	video_url = content.xpath('//div[@id="content"]/div/section/div/div/input[@id="video-smil"]')[0].get('value')
+	return Redirect(video_url)
+
+####################################################################################################
+#def MetadataObjectForURL(url):
+#
+#    content = HTTP.Request(url).content
+#    data = HTML.ElementFromString(content)
+#
+#    # Extract the available information from the page
+#    title = data.xpath('//title')[0].text.strip('U B U W E B - Film &amp; Video: ')
+#    description = content.split('<!--PLAYER END-->')[1]
+#    description = description.split('<center>')[0]
+#    description = String.StripTags(description)
+#    #description = String.Decode(description)
+#
+#    return VideoClipObject(
+#        title = title,
+#        summary = description,
+#        thumb = R('icon-default.png')
+#    )
