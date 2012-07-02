@@ -81,7 +81,7 @@ def getVideo(teamlink, competitie, page=1):
 	
 	pagestr=str(page)
 	if teamlink != "":
-		videourl = baseurl + teamlink + "pagina/"	+ pagestr
+		videourl = baseurl + teamlink + "pagina/" + pagestr
 	elif competitie != "":
 		videourl = baseurl + competitie + "pagina/" + pagestr
 		
