@@ -20,26 +20,33 @@ def NormalizeURL(url):
 	
 ####################################################################################################
 def PlayVideo(url):
-
+	Log.Debug(url)
 	content = HTML.ElementFromURL(url)
 	video_url = content.xpath('//div[@id="content"]/div/section/div/div/input[@id="video-smil"]')[0].get('value')
 	return Redirect(video_url)
 
 ####################################################################################################
-#def MetadataObjectForURL(url):
-#
-#    content = HTTP.Request(url).content
-#    data = HTML.ElementFromString(content)
-#
-#    # Extract the available information from the page
-#    title = data.xpath('//title')[0].text.strip('U B U W E B - Film &amp; Video: ')
-#    description = content.split('<!--PLAYER END-->')[1]
-#    description = description.split('<center>')[0]
-#    description = String.StripTags(description)
-#    #description = String.Decode(description)
-#
-#    return VideoClipObject(
-#        title = title,
-#        summary = description,
-#        thumb = R('icon-default.png')
-#    )
+def MetadataObjectForURL(url):
+
+	# perhaps to get in there
+	#plex_date = Datetime.ParseDate(string_date)
+
+	content = HTML.ElementFromURL(url)
+
+	title = content.xpath('//div[@id="content"]/div/section/header/h1')[0].text
+
+	try:
+		thumb = content.xpath('//meta[@property="og:image"]')[0].get('content')
+	except:
+		thumb = R('icon-default.png')
+	
+	try:
+		description = content.xpath('//meta[@property="og:description"]')[0].get('content')
+	except:
+		descrition = ""
+		
+	return VideoClipObject(
+		title = title,
+        summary = description,
+		thumb = thumb
+	)
