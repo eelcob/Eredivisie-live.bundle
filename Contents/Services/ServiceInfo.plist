@@ -8,8 +8,7 @@
 		<dict>
 			<key>URLPatterns</key>
 			<array>
-				<string>http://www.eredivisielive.nl/video/.*</string>
-				<string>http://eredivisielive.nl/video/.*</string>
+				<string>http://(www.)/?eredivisielive.nl/video/.*</string>
 			</array>
 		</dict>
 	</dict>
