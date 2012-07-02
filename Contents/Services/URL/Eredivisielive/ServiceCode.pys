@@ -28,7 +28,7 @@ def PlayVideo(url):
 ####################################################################################################
 def MetadataObjectForURL(url):
 
-	# perhaps to get in there
+	#perhaps to get in there
 	#plex_date = Datetime.ParseDate(string_date)
 
 	content = HTML.ElementFromURL(url)
@@ -41,12 +41,12 @@ def MetadataObjectForURL(url):
 		thumb = R('icon-default.png')
 	
 	try:
-		description = content.xpath('//meta[@property="og:description"]')[0].get('content')
+		summary = content.xpath('//meta[@property="og:description"]')[0].get('content')
 	except:
-		descrition = ""
+		summary = ""
 		
 	return VideoClipObject(
 		title = title,
-		summary = description,
+		summary = summary,
 		thumb = thumb
 	)

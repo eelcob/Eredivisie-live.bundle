@@ -8,8 +8,8 @@ liveurl = baseurl + '/video/'
 
 ## Todo
 # - Add more content? for example VOD
-# - Club logo bij club container? evt hogere resolutie zou mooi zijn als ie er is.
 # - update urluservice with test url
+# - Perhaps get video data in there.. see servicecode.pys
 ####################################################################################################
 def Start():
 
@@ -21,8 +21,6 @@ def Start():
 	ObjectContainer.view_group = 'List'
 	ObjectContainer.art = R(ART)
 	
-	DirectoryItem.thumb = R(ICON)
-
 	VideoClipObject.thumb = R(ICON)
 
 	HTTP.CacheTime = CACHE_1HOUR
@@ -53,7 +51,7 @@ def getClubs():
 			competitie=""
 			oc.add(DirectoryObject(key = Callback(getVideo, teamlink=teamlink, competitie=competitie), title=club, thumb=clublogo))
 	except:
-		Log(L('WebError') + liveurl)
+		Log.Exception(L('WebError') + liveurl)
 
 	return oc
 
@@ -73,7 +71,7 @@ def getCompetitie():
 		
 			oc.add(DirectoryObject(key = Callback(getVideo, teamlink=teamlink, competitie=competitie), title=comp))
 	except:
-		Log(L('WebError') + liveurl)
+		Log.Exception(L('WebError') + liveurl)
 
 	return oc
 
