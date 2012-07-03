@@ -9,7 +9,7 @@ liveurl = baseurl + '/video/'
 ## Todo
 # - Add more content? for example VOD
 # - update urluservice with test url
-# - Perhaps get video data in there.. see servicecode.pys
+# - Perhaps get video date in there.. see servicecode.pys
 ####################################################################################################
 def Start():
 
@@ -96,7 +96,7 @@ def getVideo(teamlink, competitie, page=1):
 		oc.add(VideoClipObject(
 		url = vid_url,
 		title = vid_title,
-		thumb = Callback(GetThumb, url=thumb)
+		thumb=Resource.ContentsOfURLWithFallback(url=thumb, fallback=R(ICON))
 		))
 
 	if len(oc) == 0:
@@ -107,11 +107,3 @@ def getVideo(teamlink, competitie, page=1):
 			oc.add(DirectoryObject(key=Callback(getVideo, teamlink=teamlink, competitie=competitie, page=page+1), title=L('More'), thumb=R(ICON_MORE)))
 	
 	return oc
-	
-####################################################################################################
-def GetThumb(url):
-	try:
-		image = HTTP.Request(url, cacheTime=CACHE_1WEEK).content
-		return DataObject(image, 'image/jpeg')
-	except:
-		return Redirect(R(ICON))
