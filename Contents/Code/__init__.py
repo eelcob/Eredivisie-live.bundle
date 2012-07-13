@@ -5,9 +5,12 @@ NAME 			= L('Title')
 
 baseurl = 'http://www.eredivisielive.nl'
 liveurl = baseurl + '/video/'
+mijnurl = 'https://mijn.eredivisielive.nl'
+loginurl = mijnurl + '/inloggen/'
+accounturl = mijnurl + '/account/'
 
 ## Todo
-# - Add more content? for example VOD
+# - Add more content? for example VOD --> Only internet abbo's at the moment possible
 # - update urluservice with test url
 # - Perhaps get video date in there.. see servicecode.pys
 ####################################################################################################
@@ -24,7 +27,7 @@ def Start():
 	VideoClipObject.thumb = R(ICON)
 
 	HTTP.CacheTime = CACHE_1HOUR
-	HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:8.0) Gecko/20100101 Firefox/8.0'
+	HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:13.0) Gecko/20100101 Firefox/13.0.1'
 
 ####################################################################################################
 def MainMenu():
@@ -32,9 +35,11 @@ def MainMenu():
 
 	oc.add(DirectoryObject(key = Callback(getClubs), title=L('Club')))
 	oc.add(DirectoryObject(key = Callback(getCompetitie), title=L('Competition')))
+	oc.add(DirectoryObject(key = Callback(VideoOnDemand), title=L('Login')))
+	oc.add(PrefsObject(title=L('Settings')))
 	
 	return oc
-		
+
 ####################################################################################################
 def getClubs():
 	oc = ObjectContainer()
@@ -94,9 +99,9 @@ def getVideo(teamlink, competitie, page=1):
 		thumb = video.xpath('./a/img')[0].get('src')
 		
 		oc.add(VideoClipObject(
-		url = vid_url,
-		title = vid_title,
-		thumb=Resource.ContentsOfURLWithFallback(url=thumb, fallback=R(ICON))
+			url = vid_url,
+			title = vid_title,
+			thumb=Resource.ContentsOfURLWithFallback(url=thumb, fallback=ICON)
 		))
 
 	if len(oc) == 0:
@@ -107,3 +112,39 @@ def getVideo(teamlink, competitie, page=1):
 			oc.add(DirectoryObject(key=Callback(getVideo, teamlink=teamlink, competitie=competitie, page=page+1), title=L('More'), thumb=R(ICON_MORE)))
 	
 	return oc
+
+####################################################################################################
+def VideoOnDemand():	
+	
+	if Prefs['email'] == "" or Prefs['email'] == None:
+		oc = ObjectContainer(header = "Login Error", message = "No email adres configured for login")
+		return oc
+	if Prefs['password'] == "" or Prefs['password'] == None:
+		oc = ObjectContainer(header = "Login Error", message = "No password configured for login")
+		return oc
+		
+	Log.Debug('Logging in with')
+	Log.Debug(Prefs['email'])
+	Log.Debug(Prefs['password'])
+	
+	content = HTTP.Request(loginurl, values=dict(
+				email = Prefs['email'],
+				account = "yes",
+				password = Prefs['password']
+				))
+	
+	
+	#try:
+    #   req = HTTP.Request('https://www.youtube.com/', values=dict(
+    #        session_token = Dict['Session'],
+    #        action_logout = "1"
+    #      )) 
+	Log.Debug(content)
+	
+	## post to loginurl needs to contain username and password
+	#  keywords = query.replace(" ", "%20")
+	#  pageUrl = pageUrl + keywords 
+	
+	## I will need to make an account before being able to continu
+	
+	
