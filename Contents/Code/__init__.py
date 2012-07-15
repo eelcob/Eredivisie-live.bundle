@@ -35,8 +35,8 @@ def MainMenu():
 
 	oc.add(DirectoryObject(key = Callback(getClubs), title=L('Club')))
 	oc.add(DirectoryObject(key = Callback(getCompetitie), title=L('Competition')))
-	oc.add(DirectoryObject(key = Callback(VideoOnDemand), title=L('Login')))
-	oc.add(PrefsObject(title=L('Settings')))
+#	oc.add(DirectoryObject(key = Callback(VideoOnDemand), title=L('Login')))
+#	oc.add(PrefsObject(title=L('Settings')))
 	
 	return oc
 
